@@ -19,7 +19,7 @@ const App = () => {
                         <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
                             <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3cw8EqWD2FjvGBlf5ZBrqnWhaUVs-e5GuvY9vpMa0djPzOwYmaaj8XjwJtNBH-6w-WH_lneULYaJ3FDSVk1oRu0CvsGQ_D1pUO6uEC9-Pf1mv7Q4FgdNHW3JpM0c0dM2VjJ0axUtSHP80CoKLMkFq02ro_GgAxmHQ3Njk7J2P-NLRO2ywDkWkqtlFCikOCw8ErEbfc-E_N3-4KbFjcgFg5ikVqbezRlgvTv88KtsUI7efV35MHuXM_NPBDoC9o9ZuXhui_7M5da_R" alt="User Profile" />
                         </div>
-                        <span className="text-primary font-headline font-extrabold text-xl tracking-tight">Digital Sanctuary</span>
+                        <span className="text-primary font-headline font-extrabold text-xl tracking-tight">Femm Health</span>
                     </div>
                     <button className="material-symbols-outlined text-primary p-2 rounded-full hover:bg-primary/5 transition-colors">notifications</button>
                 </div>
