@@ -13,10 +13,9 @@ const navItems = [
 const Navigation = () => {
   const { lifeStage } = useSanctuary();
 
-  // Dynamic journey icon based on life stage
   const journeyIcon = {
     cycle:               'water_drop',
-    'trying-to-conceive':'favorite',
+    'trying-to-conceive': 'favorite',
     pregnant:            'pregnant_woman',
     postpartum:          'child_care',
     perimenopause:       'autorenew',
@@ -29,7 +28,7 @@ const Navigation = () => {
   );
 
   return (
-    <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[94%] max-w-sm rounded-2xl z-50 glass-nav px-2 py-2">
+    <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[92%] max-w-sm rounded-2xl z-50 glass-nav px-1.5 py-1.5">
       <div className="flex justify-around items-center">
         {items.map(({ to, icon, label }) => (
           <NavLink
@@ -37,30 +36,35 @@ const Navigation = () => {
             to={to}
             end={to === '/'}
             className={({ isActive }) =>
-              `flex flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-w-[52px] ${
+              `flex flex-col items-center justify-center gap-0.5 px-1.5 py-1.5 rounded-xl transition-all min-w-[52px] ${
                 isActive
                   ? 'text-primary'
-                  : 'text-on-surface-variant/50 hover:text-on-surface-variant'
+                  : 'text-on-surface-variant/60 hover:text-on-surface-variant'
               }`
             }
           >
             {({ isActive }) => (
               <>
+                {/* Icon pill — active gets a clear warm rose tint */}
                 <div
-                  className={`w-9 h-9 flex items-center justify-center rounded-xl transition-all ${
-                    isActive ? 'bg-primary/15 shadow-glow-primary' : ''
+                  className={`w-10 h-8 flex items-center justify-center rounded-xl transition-all ${
+                    isActive
+                      ? 'bg-primary/[0.14]'
+                      : 'hover:bg-surface-bright/60'
                   }`}
                 >
                   <span
-                    className="material-symbols-outlined text-xl"
+                    className="material-symbols-outlined text-[22px]"
                     style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
                   >
                     {icon}
                   </span>
                 </div>
+
+                {/* Label */}
                 <span
                   className={`text-[9px] font-bold tracking-wide transition-all ${
-                    isActive ? 'text-primary opacity-100' : 'opacity-50'
+                    isActive ? 'text-primary' : 'text-on-surface-variant/55'
                   }`}
                 >
                   {label}

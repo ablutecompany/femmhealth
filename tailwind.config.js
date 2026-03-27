@@ -7,25 +7,29 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        /* ── Sanctuary Light Palette ───────────────────────────────── */
-        "primary":             "#b8857a",   // Dusty rose — soft, warm, feminine
-        "secondary":           "#8a9e88",   // Muted sage — botanical calm
-        "tertiary":            "#c4a882",   // Warm champagne/sand — gentle gold
-        "accent":              "#c9a0a8",   // Soft blush — delicate highlight
+        /* ── Sanctuary Refined Light Palette ─────────────────────────
+           Direction: warm ivory, dusty rose, muted sage, champagne.
+           Corrected for:  better contrast · premium finish · clear hierarchy
+        ──────────────────────────────────────────────────────────── */
+        "primary":             "#9a6860",   // Deeper dusty rose — clear button contrast
+        "secondary":           "#728e70",   // Sage — calmer, slightly richer
+        "tertiary":            "#b09470",   // Champagne — warm gold, readable
+        "accent":              "#b88898",   // Soft blush
 
-        "background":          "#faf8f5",   // Warm ivory — the main sanctuary air
-        "surface":             "#ffffff",   // Clean white — pure surface
-        "surface-container":   "#f5f2ec",   // Warm cream — elevated from bg
-        "surface-bright":      "#edeae3",   // Deeper cream — inputs, active cards
+        "background":          "#faf8f5",   // Warm ivory — the sanctuary air
+        "surface":             "#ffffff",   // Clean white — pure card surface
+        "surface-container":   "#f5f1eb",   // Warm cream — elevated panels
+        "surface-bright":      "#ece7dd",   // Deeper warm taupe — inputs / active
 
-        "on-surface":          "#2c2420",   // Warm deep charcoal — readable, not harsh
-        "on-surface-variant":  "#7a6c64",   // Muted warm brown — secondary text
+        "on-surface":          "#3c3028",   // Warm readable brown — titles (not charcoal)
+        "on-surface-variant":  "#7c6e66",   // Medium warm rose-brown — secondary text
 
-        "primary-container":   "#f8eeec",   // Pale rose blush — tinted backgrounds
-        "secondary-container": "#eef4ed",   // Pale sage — botanical tint
-        "tertiary-container":  "#faf3e8",   // Pale champagne — warm tint
-        "outline":             "#d4cec8",   // Soft warm taupe — borders
-        "outline-variant":     "#ece8e4",   // Very faint warm — hairlines
+        "primary-container":   "#f0e2de",   // Pale rose blush
+        "secondary-container": "#e6efe5",   // Pale sage
+        "tertiary-container":  "#f7eddb",   // Pale champagne
+
+        "outline":             "#c8c0b6",   // Warm taupe — visible card borders
+        "outline-variant":     "#e5e0d8",   // Hairline borders
       },
       fontFamily: {
         "display":  ["Cormorant Garamond", "Georgia", "serif"],
@@ -42,12 +46,14 @@ module.exports = {
         "full": "9999px",
       },
       boxShadow: {
-        "glow-primary":   "0 0 32px rgba(184, 133, 122, 0.20)",
-        "glow-secondary": "0 0 32px rgba(138, 158, 136, 0.15)",
-        "glow-accent":    "0 0 40px rgba(201, 160, 168, 0.14)",
-        "card":           "0 2px 16px rgba(44, 36, 32, 0.07)",
-        "card-hover":     "0 8px 32px rgba(44, 36, 32, 0.11)",
-        "nav":            "0 -2px 24px rgba(44, 36, 32, 0.08), 0 2px 12px rgba(44, 36, 32, 0.05)",
+        /* Warm-tinted subtle shadows for premium light-mode depth */
+        "glow-primary":   "0 0 28px rgba(154, 104, 96, 0.22)",
+        "glow-secondary": "0 0 28px rgba(114, 142, 112, 0.16)",
+        "glow-accent":    "0 0 36px rgba(184, 136, 152, 0.15)",
+        "card":           "0 2px 16px rgba(100, 60, 40, 0.08), 0 1px 4px rgba(100, 60, 40, 0.04)",
+        "card-hover":     "0 8px 32px rgba(100, 60, 40, 0.13), 0 2px 8px rgba(100, 60, 40, 0.05)",
+        "card-elevated":  "0 4px 24px rgba(100, 60, 40, 0.10), 0 1px 6px rgba(100, 60, 40, 0.05)",
+        "nav":            "0 -1px 20px rgba(100, 60, 40, 0.07), 0 2px 10px rgba(100, 60, 40, 0.04)",
       },
       animation: {
         "pulse-glow": "pulse-glow 3s ease-in-out infinite",

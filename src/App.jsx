@@ -20,7 +20,7 @@ const AppHeader = () => {
     <header className="fixed top-0 w-full z-50">
       <div
         className="px-6 py-4 max-w-4xl mx-auto flex justify-between items-center"
-        style={{ background: 'rgba(250, 248, 245, 0.92)', backdropFilter: 'blur(24px)', borderBottom: '1px solid rgba(212, 206, 200, 0.55)' }}
+        style={{ background: 'rgba(250, 247, 244, 0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid rgba(154, 104, 96, 0.14)' }}
       >
         {/* Brand */}
         <div className="flex items-center gap-3">
@@ -42,7 +42,7 @@ const AppHeader = () => {
             <div
               className="w-2 h-2 rounded-full mr-2"
               title={ablutePackStatus === 'missing' ? 'Pack ablute_ ausente' : 'Pack ablute_ desatualizado'}
-              style={{ background: ablutePackStatus === 'missing' ? '#b8857a' : '#c4a882' }}
+              style={{ background: ablutePackStatus === 'missing' ? '#9a6860' : '#b09470' }}
             />
           )}
           <button className="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-all">
