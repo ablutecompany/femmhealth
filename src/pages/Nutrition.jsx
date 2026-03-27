@@ -88,30 +88,124 @@ const MealPlannerHandoff = ({ onShare }) => {
   );
 };
 
-const HydrationGuide = ({ lifeStage }) => {
+/* ── helpers ─────────────────────────────────────────────── */
+const WATER_COLOR = '#6baec6'; // muted powder blue — natural water reference
+
+const formatRelative = (iso) => {
+  if (!iso) return null;
+  const days = Math.round((Date.now() - new Date(iso).getTime()) / 86400000);
+  if (days === 0) return 'hoje';
+  if (days === 1) return 'ontem';
+  if (days < 7)  return `há ${days} dias`;
+  return new Date(iso).toLocaleDateString('pt-PT', { day: 'numeric', month: 'short' });
+};
+
+const STATUS_CFG = {
+  excellent: { label: 'Excelente', color: '#5a9e8a' },
+  good:      { label: 'Boa',       color: WATER_COLOR },
+  moderate:  { label: 'Moderada',  color: '#b09470' },
+  low:       { label: 'Baixa',     color: '#9a6860' },
+};
+
+/* ── HydrationGuide ──────────────────────────────────────── */
+const HydrationGuide = ({ lifeStage, hydrationData }) => {
   const tips = {
-    cycle:               '1,5–2L por dia; mais durante a menstruação para repor eletrólitos.',
-    pregnant:            '2,5–3L por dia; aumenta com o calor e o exercício.',
-    postpartum:          '3L+ por dia se estiveres a amamentar.',
-    perimenopause:       '2L por dia; a hidratação apoia a regulação da temperatura.',
-    menopause:           '2L por dia; protege as articulações e a pele.',
+    cycle:                '1,5–2L por dia; mais durante a menstruação para repor eletrólitos.',
+    pregnant:             '2,5–3L por dia; aumenta com o calor e o exercício.',
+    postpartum:           '3L+ por dia se estiveres a amamentar.',
+    perimenopause:        '2L por dia; a hidratação apoia a regulação da temperatura.',
+    menopause:            '2L por dia; protege as articulações e a pele.',
     'trying-to-conceive': '2L por dia; fundamental para a saúde do muco cervical.',
-    general:             '1,5–2L de água por dia é a base de tudo.',
+    general:              '1,5–2L de água por dia é a base de tudo.',
   };
 
+  const hasData   = hydrationData && typeof hydrationData.dailyIntakeMl === 'number';
+  const pct       = hasData ? Math.min((hydrationData.dailyIntakeMl / hydrationData.goalMl) * 100, 100) : 0;
+  const cups      = hasData ? Math.round(hydrationData.dailyIntakeMl / 250) : 0;
+  const totalCups = hasData ? Math.round(hydrationData.goalMl / 250) : 8;
+  const cfg       = hydrationData?.status ? STATUS_CFG[hydrationData.status] : null;
+  const barColor  = cfg?.color || WATER_COLOR;
+
   return (
-    <div className="bg-primary/5 border border-primary/15 rounded-2xl p-5 flex items-start gap-4">
-      <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center shrink-0 text-xl">💧</div>
-      <div>
-        <p className="font-semibold text-on-surface text-sm mb-1">Hidratação</p>
-        <p className="text-on-surface-variant/80 text-sm leading-relaxed">{tips[lifeStage] || tips.general}</p>
+    <div className="bg-primary/5 border border-primary/15 rounded-2xl p-5 space-y-4">
+
+      {/* ── Header row ── */}
+      <div className="flex items-start gap-3">
+        <div className="text-xl shrink-0 mt-0.5">💧</div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-2">
+            <p className="font-semibold text-on-surface text-sm">Hidratação</p>
+            {cfg && (
+              <span
+                className="text-[10px] font-bold px-2.5 py-0.5 rounded-full shrink-0"
+                style={{ color: cfg.color, background: `${cfg.color}1a` }}
+              >
+                {cfg.label}
+              </span>
+            )}
+          </div>
+          {hydrationData?.lastUpdated && (
+            <p className="text-on-surface-variant/45 text-[10px] mt-0.5">
+              Última análise ablute_: {formatRelative(hydrationData.lastUpdated)}
+            </p>
+          )}
+        </div>
       </div>
+
+      {/* ── Visual — only when ablute_ data is present ── */}
+      {hasData ? (
+        <div className="space-y-3">
+
+          {/* Intake vs goal */}
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-baseline text-xs">
+              <span className="font-semibold text-on-surface">
+                {(hydrationData.dailyIntakeMl / 1000).toFixed(1)}L bebidos
+              </span>
+              <span className="text-on-surface-variant/45">
+                objetivo {(hydrationData.goalMl / 1000).toFixed(1)}L
+              </span>
+            </div>
+            {/* Animated progress bar */}
+            <div className="h-2 bg-outline-variant rounded-full overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${pct}%` }}
+                transition={{ duration: 1.2, ease: 'easeOut' }}
+                className="h-full rounded-full"
+                style={{ background: barColor }}
+              />
+            </div>
+          </div>
+
+          {/* Cup icons — filled vs remaining */}
+          <div className="flex gap-1 flex-wrap">
+            {Array.from({ length: totalCups }).map((_, i) => (
+              <span key={i} className="text-sm" style={{ opacity: i < cups ? 1 : 0.14 }}>💧</span>
+            ))}
+          </div>
+        </div>
+
+      ) : (
+        /* No ablute_ data available */
+        <div className="flex items-center gap-2.5 bg-surface-container rounded-xl px-3.5 py-2.5">
+          <span className="material-symbols-outlined text-on-surface-variant/30 text-[18px] shrink-0">link_off</span>
+          <p className="text-on-surface-variant/50 text-xs leading-snug">
+            Sem dados de análise da ablute_ wellness. Liga a app para acompanhar a tua hidratação em tempo real.
+          </p>
+        </div>
+      )}
+
+      {/* Contextual tip */}
+      <p className="text-on-surface-variant/70 text-sm leading-relaxed">
+        {tips[lifeStage] || tips.general}
+      </p>
     </div>
   );
 };
 
 const Nutrition = () => {
-  const { lifeStage, cyclePhase, triggerMealPlannerHandoff } = useSanctuary();
+  const { lifeStage, cyclePhase, triggerMealPlannerHandoff, abluteHealth } = useSanctuary();
 
   const currentNutrients = getNutrientsForContext(lifeStage, cyclePhase);
   const phaseLabel = lifeStage === 'cycle'
@@ -165,7 +259,7 @@ const Nutrition = () => {
 
       {/* Hydration */}
       <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
-        <HydrationGuide lifeStage={lifeStage} />
+        <HydrationGuide lifeStage={lifeStage} hydrationData={abluteHealth?.hydration ?? null} />
       </motion.section>
 
       {/* Meal Planner handoff */}

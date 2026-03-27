@@ -7,6 +7,8 @@
  *  3. Standalone dev  – stub with mock data for local development
  */
 
+export {}; // Make this a module so declare global is valid
+
 interface AbluteUser {
   id?: string;
   name?: string;
@@ -15,11 +17,27 @@ interface AbluteUser {
   [key: string]: unknown;
 }
 
+/** Hydration snapshot from ablute_ wellness analysis */
+interface AbluteHydration {
+  /** Overall hydration status from the last analysis */
+  status: 'excellent' | 'good' | 'moderate' | 'low';
+  /** ml consumed today (e.g. 1400) */
+  dailyIntakeMl: number;
+  /** ml daily goal (e.g. 2000) */
+  goalMl: number;
+  /** Urine colour scale 1–8 (1 = pale/excellent · 8 = very dark/dehydrated) */
+  urineColor?: number;
+  /** ISO 8601 timestamp of the last analysis sync */
+  lastUpdated: string;
+}
+
 interface AbluteHealth {
   cycleDay?: number;
   cycleLength?: number;
   lastPeriodDate?: string;
   updatedAt?: string;
+  /** Hydration state from the last ablute_ wellness analysis */
+  hydration?: AbluteHydration;
   [key: string]: unknown;
 }
 
@@ -93,12 +111,19 @@ if (!window.ablute) {
       dateOfBirth: '',
     },
     {
-      // Empty health = "missing pack" state in standalone dev
-      // To simulate a fresh pack, uncomment:
+      // Empty health = "missing pack" state in standalone dev.
+      // To simulate a connected pack with hydration data, uncomment:
       // cycleDay: 12,
       // cycleLength: 28,
       // lastPeriodDate: '2026-03-16',
       // updatedAt: new Date().toISOString(),
+      // hydration: {
+      //   status: 'good',
+      //   dailyIntakeMl: 1400,
+      //   goalMl: 2000,
+      //   urineColor: 2,
+      //   lastUpdated: new Date(Date.now() - 86400000 * 2).toISOString(), // 2 days ago
+      // },
     }
   );
 }
