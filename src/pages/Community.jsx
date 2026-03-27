@@ -1,101 +1,140 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
+const posts = [
+  {
+    id: 1,
+    user: 'Luna M.',
+    initials: 'LM',
+    time: '2h',
+    tag: 'Gravidez',
+    tagColor: 'primary',
+    content: 'Cheguei às 12 semanas! 🍋 A mudança de energia é real. Alguém mais sentiu a "spark" do segundo trimestre mais cedo?',
+    likes: 24,
+    comments: 8,
+  },
+  {
+    id: 2,
+    user: 'Elena S.',
+    initials: 'ES',
+    time: '5h',
+    tag: 'Ciclo',
+    tagColor: 'secondary',
+    content: 'Primeira vez a tentar Seed Syncing este mês. As sementes de linhaça e abóbora nas minhas taças de manhã são uma delícia. 🌻',
+    likes: 15,
+    comments: 3,
+  },
+  {
+    id: 3,
+    user: 'Sofia R.',
+    initials: 'SR',
+    time: '1d',
+    tag: 'Perimenopausa',
+    tagColor: 'accent',
+    content: 'Após 3 meses de treino de força, os suores noturnos diminuíram. A Dra. Haver tinha razão sobre o exercício. 💪',
+    likes: 38,
+    comments: 14,
+  },
+];
+
+const TAGS = ['Geral', 'Ciclo', 'Gravidez', 'Nutrição', 'Saúde Mental', 'Perimenopausa'];
+
 const Community = () => {
-    const posts = [
-        {
-            id: 1,
-            user: 'Luna M.',
-            avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3cw8EqWD2FjvGBlf5ZBrqnWhaUVs-e5GuvY9vpMa0djPzOwYmaaj8XjwJtNBH-6w-WH_lneULYaJ3FDSVk1oRu0CvsGQ_D1pUO6uEC9-Pf1mv7Q4FgdNHW3JpM0c0dM2VjJ0axUtSHP80CoKLMkFq02ro_GgAxmHQ3Njk7J2P-NLRO2ywDkWkqtlFCikOCw8ErEbfc-E_N3-4KbFjcgFg5ikVqbezRlgvTv88KtsUI7efV35MHuXM_NPBDoC9o9ZuXhui_7M5da_R',
-            time: '2h ago',
-            tag: 'Pregnancy',
-            content: "Just hit 12 weeks today! 🍋 The energy shift is real. Anyone else feeling that 'second trimester' spark early?",
-            likes: 24,
-            comments: 8
-        },
-        {
-            id: 2,
-            user: 'Elena S.',
-            avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBxkuXURBiOFDFJWaHD3Xa7e8rK7zAYERggNJj-4yy_wTZN9Jx41ZmhpdrTzKEdrW5xJ39VDvjgcGmcL09TrxahVSil8WR4OK3PWjY_vkGHa846Kedjx7q8-SjCvG7TtxnbeZecmtVp3CJ1Z8ryrLSFeYJGgtnwtyQNYlzcVtdETs32g5wWxaUKq_R_hlpd_EgiynPnblp9kJROLQsaQOaZGZzHe3soKrZ1E-8tN0IMLBG3Kq-g0RSQefw0r2V9tg15QeoUPVf2VQ1l',
-            time: '5h ago',
-            tag: 'Cycle Syncing',
-            content: "First time trying Seed Syncing this month. So far, the flax and pumpkin seeds are a delicious addition to my morning bowls. 🌻",
-            likes: 15,
-            comments: 3
-        }
-    ];
+  const [liked, setLiked] = useState([]);
+  const [activeTag, setActiveTag] = useState('Geral');
 
-    return (
-        <main className="max-w-4xl mx-auto px-6 pt-24 pb-32 space-y-8">
-            <header className="flex justify-between items-end">
-                <div className="space-y-1">
-                    <h2 className="text-secondary font-label text-xs font-bold tracking-[0.1em] uppercase">The Sanctuary</h2>
-                    <h1 className="font-headline font-extrabold text-5xl text-on-surface tracking-tight">Community</h1>
+  const toggleLike = (id) => {
+    setLiked(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  };
+
+  const colorMap = {
+    primary:   'bg-primary/10  text-primary',
+    secondary: 'bg-secondary/10 text-secondary',
+    accent:    'bg-accent/10   text-accent',
+    tertiary:  'bg-tertiary/10 text-tertiary',
+  };
+
+  return (
+    <main className="max-w-lg mx-auto px-5 pt-24 pb-32 space-y-6">
+      {/* Header */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+        className="flex items-center justify-between"
+      >
+        <div>
+          <p className="section-label">O santuário</p>
+          <h1 className="font-display font-light text-4xl text-on-surface leading-tight" style={{ letterSpacing: '-0.01em' }}>
+            Comunidade
+          </h1>
+        </div>
+        <button className="w-10 h-10 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center hover:bg-primary/20 transition-colors">
+          <span className="material-symbols-outlined text-primary text-xl">add</span>
+        </button>
+      </motion.section>
+
+      {/* Tags */}
+      <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+        {TAGS.map(tag => (
+          <button
+            key={tag}
+            onClick={() => setActiveTag(tag)}
+            className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
+              activeTag === tag
+                ? 'bg-primary text-background shadow-glow-primary'
+                : 'bg-surface-container border border-outline/30 text-on-surface-variant hover:border-outline'
+            }`}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
+
+      {/* Posts */}
+      <section className="space-y-4">
+        {posts.map((post, i) => (
+          <motion.div
+            key={post.id}
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
+            className="bg-surface-container border border-outline/30 rounded-3xl p-5 space-y-4"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
+                  <span className="text-primary font-bold text-xs">{post.initials}</span>
                 </div>
-                <button className="bg-primary text-white p-3 rounded-full shadow-lg shadow-primary/10 hover:shadow-xl transition-all">
-                    <span className="material-symbols-outlined">add</span>
-                </button>
-            </header>
-
-            {/* Trending Tags */}
-            <div className="flex gap-3 overflow-x-auto pb-2 hide-scrollbar">
-                {['General', 'Pregnancy', 'Cycle Support', 'Nutrition', 'Mental Health'].map((tag, i) => (
-                    <button 
-                        key={tag}
-                        className={`px-5 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap ${
-                            i === 1 ? 'bg-secondary text-white shadow-lg shadow-secondary/10' : 'bg-surface border border-surface-container text-on-surface-variant hover:bg-primary/5'
-                        }`}
-                    >
-                        {tag}
-                    </button>
-                ))}
+                <div>
+                  <p className="font-semibold text-sm text-on-surface">{post.user}</p>
+                  <p className="text-[9px] text-on-surface-variant/50 uppercase tracking-wide">{post.time} atrás</p>
+                </div>
+              </div>
+              <span className={`text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${colorMap[post.tagColor] || colorMap.primary}`}>
+                {post.tag}
+              </span>
             </div>
 
-            {/* Feed */}
-            <section className="space-y-6">
-                {posts.map((post, index) => (
-                    <motion.div 
-                        key={post.id}
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="bg-surface rounded-3xl p-6 md:p-8 shadow-sm border border-surface-container/10 space-y-6"
-                    >
-                        <div className="flex justify-between items-start">
-                            <div className="flex items-center gap-4">
-                                <img src={post.avatar} className="w-10 h-10 rounded-full object-cover shadow-sm" alt={post.user} />
-                                <div>
-                                    <p className="font-bold text-sm text-on-surface">{post.user}</p>
-                                    <p className="text-[10px] text-on-surface-variant font-medium uppercase tracking-widest">{post.time}</p>
-                                </div>
-                            </div>
-                            <span className="bg-primary/5 text-primary px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">
-                                {post.tag}
-                            </span>
-                        </div>
-                        
-                        <p className="text-on-surface-variant text-lg leading-relaxed">
-                            {post.content}
-                        </p>
+            <p className="text-on-surface-variant/90 text-sm leading-relaxed">{post.content}</p>
 
-                        <div className="flex items-center gap-6 pt-4 border-t border-surface-container/30">
-                            <button className="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-sm font-semibold">
-                                <span className="material-symbols-outlined text-xl">favorite</span>
-                                {post.likes}
-                            </button>
-                            <button className="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-sm font-semibold">
-                                <span className="material-symbols-outlined text-xl">forum</span>
-                                {post.comments}
-                            </button>
-                            <button className="ml-auto text-on-surface-variant/40 hover:text-primary transition-colors">
-                                <span className="material-symbols-outlined text-xl">share</span>
-                            </button>
-                        </div>
-                    </motion.div>
-                ))}
-            </section>
-        </main>
-    );
+            <div className="flex items-center gap-5 pt-2 border-t border-outline/20">
+              <button
+                onClick={() => toggleLike(post.id)}
+                className={`flex items-center gap-1.5 text-sm font-semibold transition-colors ${liked.includes(post.id) ? 'text-accent' : 'text-on-surface-variant/50 hover:text-accent'}`}
+              >
+                <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: liked.includes(post.id) ? "'FILL' 1" : "'FILL' 0" }}>favorite</span>
+                {post.likes + (liked.includes(post.id) ? 1 : 0)}
+              </button>
+              <button className="flex items-center gap-1.5 text-sm font-semibold text-on-surface-variant/50 hover:text-primary transition-colors">
+                <span className="material-symbols-outlined text-lg">forum</span>
+                {post.comments}
+              </button>
+              <button className="ml-auto text-on-surface-variant/30 hover:text-primary transition-colors">
+                <span className="material-symbols-outlined text-lg">share</span>
+              </button>
+            </div>
+          </motion.div>
+        ))}
+      </section>
+    </main>
+  );
 };
 
 export default Community;

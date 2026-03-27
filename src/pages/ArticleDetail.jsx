@@ -4,84 +4,109 @@ import { motion } from 'framer-motion';
 import { articles } from '../data/articles';
 
 const ArticleDetail = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const article = articles.find(a => a.id === id);
+  const { id }     = useParams();
+  const navigate   = useNavigate();
+  const article    = articles.find(a => a.id === id);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
-    if (!article) {
-        return (
-            <div className="pt-32 text-center space-y-4">
-                <h1 className="font-headline font-bold text-2xl">Article not found</h1>
-                <button onClick={() => navigate('/news')} className="text-secondary font-bold underline">Back to News</button>
-            </div>
-        );
-    }
-
+  if (!article) {
     return (
-        <main className="max-w-4xl mx-auto px-6 pt-24 pb-32">
-            <motion.button 
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                onClick={() => navigate('/news')}
-                className="flex items-center gap-2 text-primary font-bold text-sm mb-8 hover:-translate-x-1 transition-transform"
-            >
-                <span className="material-symbols-outlined text-sm">arrow_back</span>
-                Back to News
-            </motion.button>
-
-            <article className="space-y-8">
-                <header className="space-y-6">
-                    <div className="space-y-2">
-                        <span className="text-secondary font-bold text-xs uppercase tracking-widest">{article.category}</span>
-                        <h1 className="font-headline font-extrabold text-4xl md:text-5xl text-on-surface leading-tight tracking-tight">
-                            {article.title}
-                        </h1>
-                    </div>
-                    
-                    <div className="flex items-center gap-4 py-4 border-y border-surface-container/30">
-                        <img src={article.image} className="w-12 h-12 rounded-full object-cover border border-surface-container" alt={article.author} />
-                        <div>
-                            <p className="font-bold text-sm text-on-surface">{article.author}</p>
-                            <p className="text-xs text-on-surface-variant">{article.date} • 5 min read</p>
-                        </div>
-                    </div>
-                </header>
-
-                <div className="relative h-[300px] md:h-[450px] rounded-[32px] overflow-hidden">
-                    <img src={article.image} className="w-full h-full object-cover" alt={article.title} />
-                </div>
-
-                <div 
-                    className="prose prose-stone max-w-none text-on-surface-variant leading-relaxed space-y-6"
-                    style={{ fontSize: '1.125rem' }}
-                    dangerouslySetInnerHTML={{ __html: article.content }}
-                />
-
-                <footer className="pt-12 border-t border-surface-container/30 mt-16">
-                    <div className="bg-primary/5 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-                        <div>
-                            <h4 className="font-headline font-bold text-xl mb-2">Did this help?</h4>
-                            <p className="text-sm text-on-surface-variant">Save this article to your library for easy access later.</p>
-                        </div>
-                        <div className="flex gap-3 w-full md:w-auto">
-                            <button className="flex-1 bg-white border border-primary/10 text-primary px-6 py-3 rounded-full font-bold flex items-center justify-center gap-2 hover:bg-primary/5 transition-all">
-                                <span className="material-symbols-outlined text-sm">bookmark</span>
-                                Save
-                            </button>
-                            <button className="flex-1 bg-primary text-white px-6 py-3 rounded-full font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/10 hover:shadow-xl transition-all">
-                                <span className="material-symbols-outlined text-sm">share</span>
-                                Share
-                            </button>
-                        </div>
-                    </div>
-                </footer>
-            </article>
-        </main>
+      <div className="pt-32 text-center space-y-4">
+        <span className="material-symbols-outlined text-5xl text-on-surface-variant/20">article</span>
+        <h1 className="font-headline font-bold text-2xl text-on-surface">Artigo não encontrado</h1>
+        <button onClick={() => navigate('/library')} className="text-primary font-bold">
+          ← Voltar à Biblioteca
+        </button>
+      </div>
     );
+  }
+
+  return (
+    <main className="max-w-lg mx-auto px-5 pt-24 pb-32">
+      {/* Back */}
+      <motion.button
+        initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-2 text-primary/70 font-semibold text-sm mb-6 hover:text-primary transition-colors hover:-translate-x-0.5 transition-transform"
+      >
+        <span className="material-symbols-outlined text-sm">arrow_back</span>
+        Voltar
+      </motion.button>
+
+      <motion.article
+        initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+        className="space-y-6"
+      >
+        {/* Header */}
+        <header className="space-y-4">
+          <div className="space-y-2">
+            <span className="text-secondary font-bold text-[10px] uppercase tracking-widest">{article.category}</span>
+            <h1 className="font-display font-light text-3xl text-on-surface leading-tight" style={{ letterSpacing: '-0.01em' }}>
+              {article.title}
+            </h1>
+            <p className="text-on-surface-variant text-base leading-relaxed">{article.subtitle}</p>
+          </div>
+
+          {/* Author */}
+          <div className="flex items-center gap-3 py-4 border-y border-outline/20">
+            <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
+              <span className="material-symbols-outlined text-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>person</span>
+            </div>
+            <div>
+              <p className="font-semibold text-sm text-on-surface">{article.author}</p>
+              <p className="text-xs text-on-surface-variant/60">{article.role} · {article.date} · {article.readTime} leitura</p>
+            </div>
+          </div>
+        </header>
+
+        {/* Hero image */}
+        <div className="relative h-52 rounded-2xl overflow-hidden bg-surface-container">
+          <img
+            src={article.image} alt={article.title}
+            className="w-full h-full object-cover"
+            onError={e => { e.target.style.display = 'none'; }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
+        </div>
+
+        {/* Content */}
+        <div
+          className="article-body"
+          dangerouslySetInnerHTML={{ __html: article.content }}
+        />
+
+        {/* Tags */}
+        {article.tags?.length > 0 && (
+          <div className="flex flex-wrap gap-2 pt-4 border-t border-outline/20">
+            {article.tags.map(tag => (
+              <span key={tag} className="bg-surface-container border border-outline/30 text-on-surface-variant/60 px-3 py-1 rounded-full text-xs">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Footer CTA */}
+        <footer className="bg-surface-container border border-outline/30 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="flex-1">
+            <h4 className="font-semibold text-on-surface text-sm mb-1">Este artigo foi útil?</h4>
+            <p className="text-on-surface-variant/60 text-xs">Guarda-o na tua biblioteca para acesso rápido.</p>
+          </div>
+          <div className="flex gap-2 w-full sm:w-auto">
+            <button className="flex-1 sm:flex-none bg-surface-bright border border-outline/40 text-on-surface-variant px-4 py-2.5 rounded-full font-semibold text-sm flex items-center justify-center gap-2 hover:border-primary/30 hover:text-primary transition-all">
+              <span className="material-symbols-outlined text-sm">bookmark</span>
+              Guardar
+            </button>
+            <button className="flex-1 sm:flex-none bg-primary text-background px-4 py-2.5 rounded-full font-bold text-sm flex items-center justify-center gap-2 shadow-glow-primary hover:opacity-90 transition-opacity">
+              <span className="material-symbols-outlined text-sm">share</span>
+              Partilhar
+            </button>
+          </div>
+        </footer>
+      </motion.article>
+    </main>
+  );
 };
 
 export default ArticleDetail;
