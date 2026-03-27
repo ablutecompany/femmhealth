@@ -7,21 +7,25 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "primary":             "#d4a574",   // Champagne gold
-        "secondary":           "#b87868",   // Dusty terracotta
-        "tertiary":            "#8aab88",   // Sage
-        "accent":              "#c9899a",   // Dusty rose
-        "background":          "#0d0b09",   // Near-black warm
-        "surface":             "#161210",   // Dark warm surface
-        "surface-container":   "#1f1a15",   // Card background
-        "surface-bright":      "#2a231c",   // Input / elevated card
-        "on-surface":          "#f0e8de",   // Warm cream text
-        "on-surface-variant":  "#a89880",   // Muted warm text
-        "primary-container":   "#2a1e12",   // Dark amber container
-        "secondary-container": "#261411",   // Dark terracotta container
-        "tertiary-container":  "#121b12",   // Dark sage container
-        "outline":             "#3a3028",   // Subtle borders
-        "outline-variant":     "#251f18",   // Faint border
+        /* ── Sanctuary Light Palette ───────────────────────────────── */
+        "primary":             "#b8857a",   // Dusty rose — soft, warm, feminine
+        "secondary":           "#8a9e88",   // Muted sage — botanical calm
+        "tertiary":            "#c4a882",   // Warm champagne/sand — gentle gold
+        "accent":              "#c9a0a8",   // Soft blush — delicate highlight
+
+        "background":          "#faf8f5",   // Warm ivory — the main sanctuary air
+        "surface":             "#ffffff",   // Clean white — pure surface
+        "surface-container":   "#f5f2ec",   // Warm cream — elevated from bg
+        "surface-bright":      "#edeae3",   // Deeper cream — inputs, active cards
+
+        "on-surface":          "#2c2420",   // Warm deep charcoal — readable, not harsh
+        "on-surface-variant":  "#7a6c64",   // Muted warm brown — secondary text
+
+        "primary-container":   "#f8eeec",   // Pale rose blush — tinted backgrounds
+        "secondary-container": "#eef4ed",   // Pale sage — botanical tint
+        "tertiary-container":  "#faf3e8",   // Pale champagne — warm tint
+        "outline":             "#d4cec8",   // Soft warm taupe — borders
+        "outline-variant":     "#ece8e4",   // Very faint warm — hairlines
       },
       fontFamily: {
         "display":  ["Cormorant Garamond", "Georgia", "serif"],
@@ -38,12 +42,12 @@ module.exports = {
         "full": "9999px",
       },
       boxShadow: {
-        "glow-primary":   "0 0 40px rgba(212, 165, 116, 0.15)",
-        "glow-secondary": "0 0 40px rgba(184, 120, 104, 0.12)",
-        "glow-accent":    "0 0 60px rgba(201, 137, 154, 0.10)",
-        "card":           "0 4px 24px rgba(0,0,0,0.35)",
-        "card-hover":     "0 12px 40px rgba(0,0,0,0.5)",
-        "nav":            "0 -4px 40px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3)",
+        "glow-primary":   "0 0 32px rgba(184, 133, 122, 0.20)",
+        "glow-secondary": "0 0 32px rgba(138, 158, 136, 0.15)",
+        "glow-accent":    "0 0 40px rgba(201, 160, 168, 0.14)",
+        "card":           "0 2px 16px rgba(44, 36, 32, 0.07)",
+        "card-hover":     "0 8px 32px rgba(44, 36, 32, 0.11)",
+        "nav":            "0 -2px 24px rgba(44, 36, 32, 0.08), 0 2px 12px rgba(44, 36, 32, 0.05)",
       },
       animation: {
         "pulse-glow": "pulse-glow 3s ease-in-out infinite",

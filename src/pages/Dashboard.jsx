@@ -75,8 +75,7 @@ const TodayCard = ({ lifeStage, cyclePhase }) => {
   const focus = content.focus || [];
 
   return (
-    <div className={`rounded-3xl border ${colors.border} p-6 space-y-4 relative overflow-hidden`}
-      style={{ background: 'rgba(22,18,16,0.8)' }}>
+    <div className={`bg-surface rounded-3xl border ${colors.border} p-6 space-y-4 relative overflow-hidden shadow-card`}>
       {/* Ambient blob */}
       <div className={`absolute -right-12 -bottom-12 w-48 h-48 organic-blob blur-3xl opacity-30 ${colors.bg}`} />
 
